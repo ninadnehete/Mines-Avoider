@@ -1,7 +1,7 @@
 package com.company;
 import static java.lang.Boolean.*;
 import java.util.*;
-public class MineAvoider {
+public class Main {
     int row_max;
     int column_max;
     public int[][] direction;
@@ -15,12 +15,10 @@ public class MineAvoider {
                 {1, 0}};
         // this direction array has the difference that should be added to rows and column address to get the new position with respect to current position in a matrix.
         //add the directions that are allowed
-        // new position can be found out with the direction matrix
-		/*right                  row+0,column+1
+        /*right                  row+0,column+1
           diagonal_right_down    row+1,column+1
           down                   row+1,column+0
-          to allow diagonally left and down add  {1,-1} to the direction matrix 
-		  eg diagonal_left_down  element is  row+1,column-1
+          diagonal_left_down     row+1,column-1
           ...
 
         */
@@ -35,7 +33,7 @@ public class MineAvoider {
         column_max = mine_field[0].length - 1;
     }
     public static void main(String[] args) {
-        MineAvoider player = new MineAvoider();
+        Main player = new Main();
         player.initialize();
         player.path_finder(0, 0, "[0][0] ", 0);// start finding the path from 0,0
         player.showShortestPath();
@@ -84,8 +82,14 @@ public class MineAvoider {
     }
   void   showShortestPath() // finds and displays the shortest path out of all known pat
   {
-        Set<Integer> distances = distance_path.keySet(); // retrieves all set of various possible distances
-        int min_distance = Collections.min(distances);//
-        System.out.print("minimum distance:" + min_distance + " path:" + distance_path.get(min_distance));
+      try {
+          Set<Integer> distances = distance_path.keySet(); // retrieves all set of various possible distances
+          int min_distance = Collections.min(distances);//
+          System.out.print("minimum distance:" + min_distance + " path:" + distance_path.get(min_distance));
+      }
+      catch (java.util.NoSuchElementException e)
+      {
+          System.out.println("There was no path found");
+      }
     }
 }
